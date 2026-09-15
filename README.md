@@ -87,9 +87,16 @@ GitHub Pages. The repository must have **Settings → Pages → Source** set to
 ## Credits
 
 The three research figures (`src/images/fig-*.png`) are the author's own work,
-reproduced from his research. Note that two of the three accompany manuscripts
-that are not yet published — check co-author and venue policy before reusing them
-elsewhere.
+cropped from the corresponding papers:
+
+| File | Source |
+| --- | --- |
+| `fig-marmot-results.png` | *Partial recovery of meter-scale surface weather* — results overview, panels (c)–(d). **Under review at Science.** |
+| `fig-guidance-fields.png` | *Generative AI for weather data assimilation* — Rocky Mountains case study, panels (a)–(h). **Manuscript in preparation.** |
+| `fig-no2-global.png` | *Global variability in the detectability of power plant NO₂ plumes from space*, Atmospheric Measurement Techniques 2026 — panel (c). **Published.** |
+
+Two of the three accompany manuscripts that are not yet published; check co-author
+and venue policy before reusing them elsewhere.
 
 The marmot photograph on the Marmot project card (`src/images/marmot.jpg`) is by
 **Colin Canterbury / U.S. Fish and Wildlife Service** and is in the **public domain**.

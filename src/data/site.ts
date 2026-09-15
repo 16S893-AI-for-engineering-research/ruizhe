@@ -1,8 +1,8 @@
 import type { ImageMetadata } from 'astro';
 import marmotPhoto from '../images/marmot.jpg';
-import figMarmot from '../images/fig-marmot-splits.png';
-import figGuidance from '../images/fig-guidance-curves.png';
-import figNo2 from '../images/fig-no2-cems-map.png';
+import figMarmot from '../images/fig-marmot-results.png';
+import figGuidance from '../images/fig-guidance-fields.png';
+import figNo2 from '../images/fig-no2-global.png';
 
 export const profile = {
   name: 'Ruizhe Huang',
@@ -68,9 +68,9 @@ export const research: Research[] = [
     tags: ['Transformers', 'Earth observation', 'Evaluation design', 'ERA5'],
     figure: figMarmot,
     figureAlt:
-      'Three panels comparing a random train/val/test split against a leave-cell-out split on the ERA5 0.25° grid, plus matching cell-size profiles across splits.',
+      'Spatial R-squared distributions for temperature, dewpoint, and wind across four methods, above three maps of the contiguous U.S. showing per-station error differences between ERA5 and the best model.',
     figureCaption:
-      'Leave-cell-out splitting on the ERA5 grid. A random split mixes 64% of multi-station cells across folds; assigning whole cells drops that to 0% while keeping the cell-size profile matched. Synthetic stations shown.',
+      'Spatial R² across four methods, and where the model beats ERA5 station by station. Adding Earth observations to stations and reanalysis shifts the whole distribution right for all three variables — most strongly for wind.',
     avatar: marmotPhoto,
     avatarAlt: 'A hoary marmot sitting in alpine grass.',
     avatarCredit: {
@@ -94,9 +94,9 @@ export const research: Research[] = [
     tags: ['Flow matching', 'Data assimilation', 'Generative models', 'Benchmarking'],
     figure: figGuidance,
     figureAlt:
-      'Two line charts of the Bayesian guidance weight against time, showing how the peak shifts between the noisy and clean ends as the observation noise and gamma parameters change.',
+      'Eight panels over the Colorado Rockies: 2-metre temperature fields from ERA5, Flow Guidance, Diffusion SDA and 3D-Var, above each method\u2019s error at station locations.',
     figureCaption:
-      'The Bayesian guidance schedule. Observation noise and γ decide whether guidance peaks at the noisy or the clean end of the trajectory; normalising to the peak exposes the mirror symmetry between them.',
+      'A case study over the Colorado Rockies. Against the ERA5 background (MAE 7.30 °C), flow guidance reaches 2.66 °C and diffusion SDA 2.50 °C, both beating 3D-Var at 3.16 °C — and the station residuals below show where the remaining error sits.',
   },
   {
     title: 'Global Variability in the Detectability of Power Plant NO₂ Plumes from Space',
@@ -114,9 +114,9 @@ export const research: Research[] = [
     tags: ['Remote sensing', 'Air quality', 'Deep learning', 'Emissions'],
     figure: figNo2,
     figureAlt:
-      'World map shading countries by whether they have a comprehensive, partial, or limited national continuous emission monitoring mandate.',
+      'World map with one dot per power plant, coloured by the probability that its NO₂ plume is detectable from space and sized by annual NOx emissions.',
     figureCaption:
-      'Where ground-truth emissions data exists at all. National CEMS mandates by tier — the coverage gap this motivates satellite-based estimation to fill.',
+      'Plume detection probability for over 6,000 power plants worldwide, sized by annual NOx emissions. Detectability is strongly geographic — high across the Middle East and India, far lower across much of the eastern U.S. and Europe.',
   },
 ];
 
