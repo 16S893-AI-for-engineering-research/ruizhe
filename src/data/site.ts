@@ -1,5 +1,8 @@
 import type { ImageMetadata } from 'astro';
 import marmotPhoto from '../images/marmot.jpg';
+import figMarmot from '../images/fig-marmot-splits.png';
+import figGuidance from '../images/fig-guidance-curves.png';
+import figNo2 from '../images/fig-no2-cems-map.png';
 
 export const profile = {
   name: 'Ruizhe Huang',
@@ -37,10 +40,14 @@ export type Research = {
   summary: string;
   points: string[];
   tags: string[];
-  /** Optional illustration; the card renders as a featured two-column layout when present. */
-  image?: ImageMetadata;
-  imageAlt?: string;
-  imageCredit?: { text: string; url: string };
+  /** Wide figure rendered full-bleed beneath the card text. */
+  figure?: ImageMetadata;
+  figureAlt?: string;
+  figureCaption?: string;
+  /** Small round thumbnail beside the title. */
+  avatar?: ImageMetadata;
+  avatarAlt?: string;
+  avatarCredit?: { text: string; url: string };
 };
 
 export const research: Research[] = [
@@ -59,9 +66,14 @@ export const research: Research[] = [
       'Led the final audit of training, evaluation, and figure code before submission. Co-first and co-corresponding author.',
     ],
     tags: ['Transformers', 'Earth observation', 'Evaluation design', 'ERA5'],
-    image: marmotPhoto,
-    imageAlt: 'A hoary marmot sitting in alpine grass, looking to one side.',
-    imageCredit: {
+    figure: figMarmot,
+    figureAlt:
+      'Three panels comparing a random train/val/test split against a leave-cell-out split on the ERA5 0.25° grid, plus matching cell-size profiles across splits.',
+    figureCaption:
+      'Leave-cell-out splitting on the ERA5 grid. A random split mixes 64% of multi-station cells across folds; assigning whole cells drops that to 0% while keeping the cell-size profile matched. Synthetic stations shown.',
+    avatar: marmotPhoto,
+    avatarAlt: 'A hoary marmot sitting in alpine grass.',
+    avatarCredit: {
       text: 'Colin Canterbury/USFWS · public domain',
       url: 'https://commons.wikimedia.org/wiki/File:Marmot_day.jpg',
     },
@@ -80,6 +92,11 @@ export const research: Research[] = [
       'Ran the largest-scale benchmark of generative weather AI to date, spanning four years of data.',
     ],
     tags: ['Flow matching', 'Data assimilation', 'Generative models', 'Benchmarking'],
+    figure: figGuidance,
+    figureAlt:
+      'Two line charts of the Bayesian guidance weight against time, showing how the peak shifts between the noisy and clean ends as the observation noise and gamma parameters change.',
+    figureCaption:
+      'The Bayesian guidance schedule. Observation noise and γ decide whether guidance peaks at the noisy or the clean end of the trajectory; normalising to the peak exposes the mirror symmetry between them.',
   },
   {
     title: 'Global Variability in the Detectability of Power Plant NO₂ Plumes from Space',
@@ -95,6 +112,11 @@ export const research: Research[] = [
       'Drew out the implications for satellite sensor design and emissions-inversion strategy.',
     ],
     tags: ['Remote sensing', 'Air quality', 'Deep learning', 'Emissions'],
+    figure: figNo2,
+    figureAlt:
+      'World map shading countries by whether they have a comprehensive, partial, or limited national continuous emission monitoring mandate.',
+    figureCaption:
+      'Where ground-truth emissions data exists at all. National CEMS mandates by tier — the coverage gap this motivates satellite-based estimation to fill.',
   },
 ];
 

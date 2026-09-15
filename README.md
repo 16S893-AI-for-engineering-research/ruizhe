@@ -86,6 +86,11 @@ GitHub Pages. The repository must have **Settings → Pages → Source** set to
 
 ## Credits
 
+The three research figures (`src/images/fig-*.png`) are the author's own work,
+reproduced from his research. Note that two of the three accompany manuscripts
+that are not yet published — check co-author and venue policy before reusing them
+elsewhere.
+
 The marmot photograph on the Marmot project card (`src/images/marmot.jpg`) is by
 **Colin Canterbury / U.S. Fish and Wildlife Service** and is in the **public domain**.
 Source: [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Marmot_day.jpg).

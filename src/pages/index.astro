@@ -84,52 +84,74 @@ const statusLabel = {
       {
         research.map((r) => (
           <article class="card overflow-hidden hover:border-accent/45">
-            <div class:list={['gap-6 p-6 sm:p-8', r.image && 'sm:grid sm:grid-cols-[1fr_15rem] sm:gap-8']}>
-              <div>
-                <div class="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
+            <div class="p-6 sm:p-8">
+              <div class="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
+                <div class="flex items-center gap-3">
+                  {
+                    r.avatar && (
+                      <Image
+                        src={r.avatar}
+                        alt={r.avatarAlt ?? ''}
+                        widths={[72, 144]}
+                        sizes="2.25rem"
+                        loading="lazy"
+                        decoding="async"
+                        class="h-9 w-9 shrink-0 rounded-full border border-line object-cover"
+                      />
+                    )
+                  }
                   <h3 class="font-display text-xl font-medium sm:text-[22px]">{r.title}</h3>
-                  <span class="font-mono text-[11px] text-muted">{r.period}</span>
                 </div>
-
-                {r.venue && <p class="mt-2 text-[13px] font-medium text-accent">{r.venue}</p>}
-
-                <p class="mt-4 max-w-[68ch] text-[15px] leading-relaxed text-muted">{r.summary}</p>
-
-                <ul class="mt-5 flex flex-wrap gap-1.5">
-                  {r.tags.map((t) => (
-                    <li class="tag">{t}</li>
-                  ))}
-                </ul>
+                <span class="font-mono text-[11px] text-muted">{r.period}</span>
               </div>
 
-              {
-                r.image && (
-                  <figure class="mt-6 sm:mt-0">
+              {r.venue && <p class="mt-2 text-[13px] font-medium text-accent">{r.venue}</p>}
+
+              <p class="mt-4 max-w-[68ch] text-[15px] leading-relaxed text-muted">{r.summary}</p>
+
+              <ul class="mt-5 flex flex-wrap gap-1.5">
+                {r.tags.map((t) => (
+                  <li class="tag">{t}</li>
+                ))}
+              </ul>
+            </div>
+
+            {
+              r.figure && (
+                <figure class="border-t border-line">
+                  {/* Matplotlib output is white-backed, so the plate stays light in both themes. */}
+                  <div class="bg-white p-3 sm:p-4">
                     <Image
-                      src={r.image}
-                      alt={r.imageAlt ?? ''}
-                      widths={[240, 480, 720]}
-                      sizes="(min-width: 640px) 15rem, 100vw"
+                      src={r.figure}
+                      alt={r.figureAlt ?? ''}
+                      widths={[640, 960, 1440]}
+                      sizes="(min-width: 1024px) 60rem, 100vw"
                       loading="lazy"
                       decoding="async"
-                      class="aspect-[4/3] w-full rounded-lg border border-line object-cover"
+                      class="w-full rounded"
                     />
-                    {r.imageCredit && (
-                      <figcaption class="mt-2 text-[11px] leading-snug text-muted">
-                        <a
-                          href={r.imageCredit.url}
-                          target="_blank"
-                          rel="noopener"
-                          class="transition-colors hover:text-accent"
-                        >
-                          {r.imageCredit.text}
-                        </a>
-                      </figcaption>
-                    )}
-                  </figure>
-                )
-              }
-            </div>
+                  </div>
+                  {r.figureCaption && (
+                    <figcaption class="border-t border-line px-6 py-3 text-[12px] leading-relaxed text-muted sm:px-8">
+                      {r.figureCaption}
+                      {r.avatarCredit && (
+                        <>
+                          {' '}
+                          <a
+                            href={r.avatarCredit.url}
+                            target="_blank"
+                            rel="noopener"
+                            class="whitespace-nowrap transition-colors hover:text-accent"
+                          >
+                            Marmot photo: {r.avatarCredit.text}.
+                          </a>
+                        </>
+                      )}
+                    </figcaption>
+                  )}
+                </figure>
+              )
+            }
           </article>
         ))
       }
