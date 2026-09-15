@@ -1,0 +1,163 @@
+---
+// A faint advected-particle field behind the hero — a nod to the near-surface
+// wind work. Purely decorative: hidden from assistive tech, and it renders a
+// single static frame when the visitor prefers reduced motion.
+---
+
+<canvas
+  id="wind-field"
+  aria-hidden="true"
+  class="pointer-events-none absolute inset-0 h-full w-full"
+  style="
+    -webkit-mask-image: linear-gradient(100deg, transparent 0%, transparent 40%, rgba(0,0,0,0.7) 72%, rgba(0,0,0,1) 100%);
+    mask-image: linear-gradient(100deg, transparent 0%, transparent 40%, rgba(0,0,0,0.7) 72%, rgba(0,0,0,1) 100%);
+  "
+></canvas>
+
+<script is:inline>
+  (() => {
+    const canvas = document.getElementById('wind-field');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d', { alpha: true });
+    if (!ctx) return;
+
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const TAU = Math.PI * 2;
+    let w = 0;
+    let h = 0;
+    let dpr = 1;
+    let particles = [];
+    let raf = 0;
+    let frame = 0;
+    let accent = '#0d7a6f';
+    let running = false;
+
+    // Smooth pseudo-curl field: cheap, deterministic, no noise library.
+    function angleAt(x, y, t) {
+      const a = Math.sin(x * 0.0042 + t) + Math.cos(y * 0.0037 - t * 0.8);
+      const b = Math.sin((x + y) * 0.0021 + t * 0.55);
+      return (a + b) * 1.15;
+    }
+
+    function readAccent() {
+      // --c-accent is any valid CSS colour (hex today), so use it verbatim and
+      // carry opacity via globalAlpha rather than string-building rgba().
+      const v = getComputedStyle(document.documentElement).getPropertyValue('--c-accent').trim();
+      if (v) accent = v;
+    }
+
+    function seed() {
+      const target = Math.min(360, Math.round((w * h) / 3000));
+      particles = Array.from({ length: target }, () => ({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        life: Math.random() * 180,
+      }));
+    }
+
+    function resize() {
+      const rect = canvas.getBoundingClientRect();
+      if (rect.width === 0 || rect.height === 0) return;
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      w = rect.width;
+      h = rect.height;
+      canvas.width = Math.round(w * dpr);
+      canvas.height = Math.round(h * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, w, h);
+      readAccent();
+      seed();
+      // Always lay down a static frame: if the tab is backgrounded (or the
+      // visitor prefers reduced motion) the rAF loop may never run, and the
+      // hero should never be blank.
+      staticFrame();
+    }
+
+    function step(t, alpha) {
+      ctx.lineWidth = 1;
+      ctx.lineCap = 'round';
+      ctx.globalAlpha = alpha;
+      ctx.strokeStyle = accent;
+      ctx.beginPath();
+      for (const p of particles) {
+        const ang = angleAt(p.x, p.y, t);
+        const nx = p.x + Math.cos(ang) * 1.5;
+        const ny = p.y + Math.sin(ang) * 1.5;
+        ctx.moveTo(p.x, p.y);
+        ctx.lineTo(nx, ny);
+        p.x = nx;
+        p.y = ny;
+        p.life -= 1;
+        if (p.life <= 0 || p.x < -20 || p.x > w + 20 || p.y < -20 || p.y > h + 20) {
+          p.x = Math.random() * w;
+          p.y = Math.random() * h;
+          p.life = 120 + Math.random() * 160;
+        }
+      }
+      ctx.stroke();
+      ctx.globalAlpha = 1;
+    }
+
+    // Reduced motion: integrate the field once and leave the still image.
+    function staticFrame() {
+      ctx.clearRect(0, 0, w, h);
+      for (let i = 0; i < 420; i++) step(0.6, 0.22);
+    }
+
+    function loop() {
+      if (!running) return;
+      frame++;
+      if (frame % 45 === 0) readAccent();
+
+      // Fade prior trails instead of clearing, so paths persist briefly.
+      ctx.globalCompositeOperation = 'destination-out';
+      ctx.fillStyle = 'rgba(0,0,0,0.018)';
+      ctx.fillRect(0, 0, w, h);
+      ctx.globalCompositeOperation = 'source-over';
+
+      step(frame * 0.0016, 0.22);
+      raf = requestAnimationFrame(loop);
+    }
+
+    function start() {
+      if (reduced || running) return;
+      running = true;
+      raf = requestAnimationFrame(loop);
+    }
+
+    function stop() {
+      running = false;
+      cancelAnimationFrame(raf);
+    }
+
+    // This script parses before the hero has been laid out, so the canvas can
+    // still measure 0x0 here. A ResizeObserver fires as soon as it has a real
+    // box (and on every later change), which removes the race entirely.
+    let resizeTimer = 0;
+    const scheduleResize = () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = window.setTimeout(resize, 120);
+    };
+
+    new ResizeObserver(scheduleResize).observe(canvas);
+    window.addEventListener('resize', scheduleResize);
+    resize();
+
+    // Only animate while the hero is actually on screen and the tab is visible.
+    const io = new IntersectionObserver(
+      ([entry]) => (entry.isIntersecting && !document.hidden ? start() : stop()),
+      { threshold: 0 },
+    );
+    io.observe(canvas);
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) stop();
+      else if (canvas.getBoundingClientRect().bottom > 0) start();
+    });
+
+    new MutationObserver(readAccent).observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-theme'],
+    });
+  })();
+</script>

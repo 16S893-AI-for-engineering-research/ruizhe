@@ -1,0 +1,46 @@
+---
+import { profile } from '../data/site';
+
+const year = new Date().getFullYear();
+const links = [
+  { label: 'Email', href: `mailto:${profile.email}`, text: profile.email },
+  { label: 'GitHub', href: profile.github, text: profile.githubHandle },
+  { label: 'LinkedIn', href: profile.linkedin, text: 'ruizhe-huang' },
+  { label: 'Phone', href: `tel:${profile.phoneHref}`, text: profile.phone },
+];
+---
+
+<footer class="mt-24 border-t border-line">
+  <div class="shell flex flex-col gap-6 py-10 sm:flex-row sm:items-start sm:justify-between">
+    <div class="space-y-1">
+      <p class="font-display text-[15px]">{profile.name}</p>
+      <p class="text-[13px] text-muted">{profile.affiliation} · {profile.location}</p>
+    </div>
+
+    <ul class="flex flex-wrap gap-x-5 gap-y-2 text-[13px]">
+      {
+        links.map((l) => (
+          <li>
+            <a
+              href={l.href}
+              class="text-muted transition-colors hover:text-accent"
+              rel={l.href.startsWith('http') ? 'noopener' : undefined}
+              target={l.href.startsWith('http') ? '_blank' : undefined}
+            >
+              {l.text}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+
+  <div class="shell pb-10">
+    <p class="text-[12px] text-muted">
+      © {year} {profile.name} · Built for MIT{' '}
+      <a href={profile.course.url} target="_blank" rel="noopener" class="link-underline">
+        {profile.course.code} {profile.course.name}
+      </a>
+    </p>
+  </div>
+</footer>

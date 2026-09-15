@@ -1,0 +1,13 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { url } from '../lib/paths';
+---
+
+<BaseLayout title="Not found" description="That page does not exist.">
+  <section class="shell py-24 sm:py-32">
+    <p class="eyebrow">404</p>
+    <h1 class="mt-4 font-display text-3xl font-medium sm:text-4xl">That page isn’t here.</h1>
+    <p class="mt-4 max-w-[68ch] text-[15px] text-muted">The link may be out of date, or the page may have moved.</p>
+    <a href={url('/')} class="mt-8 inline-block text-[15px] link-underline">Back to the homepage</a>
+  </section>
+</BaseLayout>

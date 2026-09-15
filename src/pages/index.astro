@@ -1,0 +1,162 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import WindField from '../components/WindField.astro';
+import { Image } from 'astro:assets';
+import { url } from '../lib/paths';
+import { profile, interests, research, publications } from '../data/site';
+
+const statusLabel = {
+  published: 'Published',
+  review: 'Under review',
+  prep: 'In preparation',
+};
+---
+
+<BaseLayout title={profile.name}>
+  <!-- Hero -->
+  <section class="relative overflow-hidden border-b border-line">
+    <WindField />
+    <div
+      class="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-bg"
+      aria-hidden="true"
+    >
+    </div>
+
+    <div class="shell relative py-20 sm:py-28">
+      <p class="eyebrow">{profile.affiliation}</p>
+      <h1 class="mt-4 font-display text-4xl font-medium leading-[1.08] sm:text-6xl">
+        {profile.name}
+      </h1>
+      <p class="mt-4 max-w-2xl text-[15px] leading-relaxed text-muted sm:text-base">
+        {profile.role}. Advised by{' '}
+        <a href={profile.advisor.url} target="_blank" rel="noopener" class="link-underline">
+          {profile.advisor.name}
+        </a>.
+      </p>
+
+      <p class="mt-8 max-w-[68ch] text-lg leading-relaxed text-ink/90 sm:text-xl">
+        {profile.tagline}
+      </p>
+
+      <div class="mt-10 flex flex-wrap items-center gap-x-3 gap-y-2 text-[13px]">
+        <a
+          href={url('/about')}
+          class="rounded-md bg-ink px-4 py-2 font-medium text-bg transition-opacity hover:opacity-85"
+        >
+          About me
+        </a>
+        <a
+          href={url('/project')}
+          class="rounded-md border border-line px-4 py-2 font-medium transition-colors hover:border-accent hover:text-accent"
+        >
+          Course project
+        </a>
+        <a href={`mailto:${profile.email}`} class="px-2 py-2 text-muted transition-colors hover:text-accent">
+          {profile.email}
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Research interests -->
+  <section class="shell py-16 sm:py-20">
+    <h2 class="eyebrow">Research interests</h2>
+    <ul class="mt-6 grid gap-x-10 gap-y-4 sm:grid-cols-2">
+      {
+        interests.map((item) => (
+          <li class="flex gap-3 text-[15px] leading-relaxed">
+            <span class="mt-[9px] h-1 w-1 shrink-0 rounded-full bg-accent" aria-hidden="true" />
+            <span>{item}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <!-- Research -->
+  <section class="shell pb-4">
+    <div class="flex items-baseline justify-between gap-4">
+      <h2 class="eyebrow">Research</h2>
+      <a href={url('/about')} class="text-[13px] text-muted transition-colors hover:text-accent">Full background →</a>
+    </div>
+
+    <div class="mt-8 space-y-5">
+      {
+        research.map((r) => (
+          <article class="card overflow-hidden hover:border-accent/45">
+            <div class:list={['gap-6 p-6 sm:p-8', r.image && 'sm:grid sm:grid-cols-[1fr_15rem] sm:gap-8']}>
+              <div>
+                <div class="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
+                  <h3 class="font-display text-xl font-medium sm:text-[22px]">{r.title}</h3>
+                  <span class="font-mono text-[11px] text-muted">{r.period}</span>
+                </div>
+
+                {r.venue && <p class="mt-2 text-[13px] font-medium text-accent">{r.venue}</p>}
+
+                <p class="mt-4 max-w-[68ch] text-[15px] leading-relaxed text-muted">{r.summary}</p>
+
+                <ul class="mt-5 flex flex-wrap gap-1.5">
+                  {r.tags.map((t) => (
+                    <li class="tag">{t}</li>
+                  ))}
+                </ul>
+              </div>
+
+              {
+                r.image && (
+                  <figure class="mt-6 sm:mt-0">
+                    <Image
+                      src={r.image}
+                      alt={r.imageAlt ?? ''}
+                      widths={[240, 480, 720]}
+                      sizes="(min-width: 640px) 15rem, 100vw"
+                      loading="lazy"
+                      decoding="async"
+                      class="aspect-[4/3] w-full rounded-lg border border-line object-cover"
+                    />
+                    {r.imageCredit && (
+                      <figcaption class="mt-2 text-[11px] leading-snug text-muted">
+                        <a
+                          href={r.imageCredit.url}
+                          target="_blank"
+                          rel="noopener"
+                          class="transition-colors hover:text-accent"
+                        >
+                          {r.imageCredit.text}
+                        </a>
+                      </figcaption>
+                    )}
+                  </figure>
+                )
+              }
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- Publications -->
+  <section class="shell py-16 sm:py-20">
+    <h2 class="eyebrow">Publications</h2>
+    <p class="mt-3 text-[13px] text-muted">† denotes equal contribution.</p>
+
+    <ol class="mt-8 space-y-7">
+      {
+        publications.map((p, i) => (
+          <li class="grid grid-cols-[1.75rem_1fr] gap-x-2">
+            <span class="pt-[3px] font-mono text-[12px] text-muted">{i + 1}.</span>
+            <div>
+              <p class="font-display text-[17px] leading-snug">{p.title}</p>
+              <p class="mt-1.5 text-[13px] leading-relaxed text-muted">{p.authors}</p>
+              <p class="mt-1.5 text-[13px]">
+                <span class="text-muted">{p.venue}, {p.year}</span>
+                <span class="ml-2 tag">{statusLabel[p.status]}</span>
+              </p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+</BaseLayout>

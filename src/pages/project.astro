@@ -1,0 +1,132 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { profile } from '../data/site';
+
+// ---------------------------------------------------------------------------
+// SCAFFOLD. Replace `status`/`summary` and fill in each section's `body` array.
+// A section with an empty `body` renders as a visible draft placeholder, so
+// nothing here can be mistaken for finished writing.
+// ---------------------------------------------------------------------------
+
+const project = {
+  title: 'Course project',
+  status: 'In progress',
+  summary: '',
+  summaryPrompt:
+    'One or two sentences: what are you building, and what question does it answer? Write this last — it is easier once the sections below exist.',
+};
+
+type Section = { id: string; heading: string; prompt: string; body: string[] };
+
+const sections: Section[] = [
+  {
+    id: 'motivation',
+    heading: 'Motivation',
+    prompt:
+      'What problem in your research workflow is slow, brittle, or error-prone today? Be concrete about the current process and its cost.',
+    body: [],
+  },
+  {
+    id: 'approach',
+    heading: 'Approach',
+    prompt:
+      'What is the agent actually doing? Which tools does it have, what does it read and write, and where does a human stay in the loop?',
+    body: [],
+  },
+  {
+    id: 'implementation',
+    heading: 'Implementation',
+    prompt:
+      'Stack, architecture, and the decisions that were not obvious. Note anything you tried first that did not work.',
+    body: [],
+  },
+  {
+    id: 'evaluation',
+    heading: 'Evaluation',
+    prompt:
+      'How do you know it works? Define the baseline you are beating and the failure cases you specifically checked for.',
+    body: [],
+  },
+  {
+    id: 'results',
+    heading: 'Results',
+    prompt: 'Numbers and figures. Include what did not improve, not only what did.',
+    body: [],
+  },
+  {
+    id: 'reflection',
+    heading: 'Reflection',
+    prompt:
+      'Where did the agent help, where did it get in the way, and what would you hand to someone starting this tomorrow?',
+    body: [],
+  },
+];
+
+const filled = sections.filter((s) => s.body.length > 0).length;
+---
+
+<BaseLayout title="Project" description={`Course project for MIT ${profile.course.code}: ${profile.course.name}.`}>
+  <section class="shell border-b border-line py-16 sm:py-20">
+    <div class="flex flex-wrap items-center gap-3">
+      <p class="eyebrow">
+        {profile.course.code} · {profile.course.name}
+      </p>
+      <span class="tag">{project.status}</span>
+    </div>
+
+    <h1 class="mt-4 max-w-3xl font-display text-3xl font-medium leading-[1.15] sm:text-5xl">
+      {project.title}
+    </h1>
+
+    {
+      project.summary ? (
+        <p class="mt-6 max-w-[68ch] text-lg leading-relaxed sm:text-xl">{project.summary}</p>
+      ) : (
+        <p
+          class="mt-6 max-w-[68ch] border-l-2 border-accent/50 bg-accent-soft/60 py-3 pl-4 text-[14px] leading-relaxed text-muted"
+        >
+          <span class="font-mono text-[11px] uppercase tracking-[0.14em] text-accent">Draft</span>
+          <span class="mt-1.5 block">{project.summaryPrompt}</span>
+        </p>
+      )
+    }
+
+    <p class="mt-8 font-mono text-[11px] text-muted">
+      {filled} of {sections.length} sections written
+    </p>
+  </section>
+
+  <section class="shell py-14 sm:py-16">
+    <div class="space-y-12">
+      {
+        sections.map((s, i) => (
+          <article id={s.id} class="scroll-mt-24">
+            <div class="flex items-baseline gap-3">
+              <span class="font-mono text-[11px] text-muted">{String(i + 1).padStart(2, '0')}</span>
+              <h2 class="font-display text-2xl font-medium">{s.heading}</h2>
+            </div>
+
+            {s.body.length > 0 ? (
+              <div class="mt-4 max-w-[68ch] space-y-4 text-[15px] leading-relaxed text-muted">
+                {s.body.map((p) => (
+                  <p>{p}</p>
+                ))}
+              </div>
+            ) : (
+              <p class="mt-4 max-w-[68ch] border-l-2 border-line py-2 pl-4 text-[14px] leading-relaxed text-muted">
+                <span class="font-mono text-[11px] uppercase tracking-[0.14em] text-muted/80">To write</span>
+                <span class="mt-1.5 block italic">{s.prompt}</span>
+              </p>
+            )}
+          </article>
+        ))
+      }
+    </div>
+
+    <p class="mt-16 max-w-[68ch] text-[13px] leading-relaxed text-muted">
+      Edit <code class="font-mono text-[12px] text-accent">src/pages/project.astro</code> to fill these in — add strings
+      to a section’s <code class="font-mono text-[12px] text-accent">body</code> array and the placeholder is replaced
+      automatically.
+    </p>
+  </section>
+</BaseLayout>
