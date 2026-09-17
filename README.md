@@ -5,8 +5,8 @@ A four-page research portfolio for Ruizhe Huang, built with plain HTML, CSS, and
 ## Pages
 
 - `index.html` — research overview and animated observation-to-inference visualization
-- `about.html` — research interests and education
-- `projects.html` — detailed research-project summaries
+- `about.html` — research interests, research experience, and education
+- `projects.html` — course-project proposal placeholder (TBD)
 - `dev-log.html` — methodological research notes
 
 ## Preview locally
