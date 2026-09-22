@@ -4,126 +4,160 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Ruizhe Huang's proposal to evaluate satellite estimates of power-plant NOx emissions.">
-  <title>Power-plant NOx Proposal — Ruizhe Huang</title>
+  <title>Project Proposal — Ruizhe Huang</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
-<body class="project-page-v2">
+<body>
   <div class="page-noise" aria-hidden="true"></div>
   <header class="site-header">
     <a class="brand" href="index.html" aria-label="Ruizhe Huang home"><span class="brand-mark">RH</span><span>RUIZHE HUANG<small>EARTH-SYSTEM AI</small></span></a>
     <nav aria-label="Main navigation"><a href="index.html">Home</a><a href="about.html">About Me</a><a class="active" href="projects.html">Project</a><a href="dev-log.html">Dev Log</a></nav>
-    <a class="header-link" href="about.html#research-experience">Research experience <span>↗</span></a>
+    <a class="header-link" href="dev-log.html">Project notebook <span>↗</span></a>
   </header>
 
-  <main>
-    <section class="p2-hero section-shell">
-      <div class="p2-hero-main appear">
-        <p class="section-label"><span></span> Research proposal · 2026</p>
-        <h1>Can we trust a power plant’s <em>satellite-estimated emissions?</em></h1>
-        <p class="p2-deck">Testing the limits of TROPOMI estimates of power-plant NO<sub>x</sub>—from single overpasses to annual totals and a global pilot.</p>
+  <main class="dl-page">
+    <section class="dl-hero pdl-hero">
+      <div class="dl-hero-copy appear">
+        <p class="dl-kicker">Research proposal · 2026</p>
+        <h1>Satellite NO<sub>x</sub><br><em>reliability.</em></h1>
+        <p>How reliable are satellite estimates of power-plant emissions? Testing their limits, drivers, annual totals, and global reach.</p>
       </div>
-      <aside class="p2-hero-meta appear delay-1" aria-label="Project details">
-        <div><span>AUTHOR</span><b>Ruizhe Huang</b></div>
-        <div><span>PERIOD</span><b>Sep — Dec 2026</b></div>
-        <div><span>STATUS</span><b class="p2-status"><i></i> Proposal</b></div>
+      <div class="dl-hero-meta appear delay-1" aria-label="Proposal status">
+        <div class="dl-meta-top"><span>PROJECT / 001</span><span><i></i> PROPOSED</span></div>
+        <div class="dl-meta-mark"><b>NO<sub>x</sub></b><span>TROPOMI · SENTINEL-5P</span></div>
+        <div class="dl-meta-bottom"><span>OWNER</span><b>RUIZHE HUANG</b></div>
+      </div>
+    </section>
+
+    <div class="dl-layout section-shell">
+      <aside class="dl-sidebar">
+        <p>ON THIS PAGE</p>
+        <a href="#overview"><span>01</span> Overview</a>
+        <a href="#limits"><span>02</span> Reliability</a>
+        <a href="#drivers"><span>03</span> Error drivers</a>
+        <a href="#annual"><span>04</span> Annual totals</a>
+        <a href="#global"><span>05</span> Global pilot</a>
+        <a href="#plan"><span>06</span> Work plan</a>
+        <div class="dl-sidebar-status"><i></i><span>Current phase<small>Proposal ready</small></span></div>
       </aside>
-    </section>
 
-    <section class="p2-results section-shell" aria-label="Current results">
-      <div class="p2-result-intro appear"><p>STARTING POINT</p><h2>The model improves when observations are averaged—but a persistent bias remains.</h2></div>
-      <article class="appear delay-1"><strong>0.25</strong><span>R²</span><p>Single overpasses</p><small>Hourly estimate vs. CEMS</small></article>
-      <article class="appear delay-2"><strong>0.69</strong><span>R²</span><p>Plant averages</p><small>Six-year mean, ≥10 overpasses</small></article>
-    </section>
+      <div class="dl-content">
+        <section class="dl-section" id="overview">
+          <header class="dl-section-head"><span>01</span><div><p>PROJECT OVERVIEW</p><h2>Measuring power plants from orbit.</h2></div></header>
+          <div class="dl-plan-intro pdl-intro"><p><strong>Most power plants are not measured directly.</strong> U.S. plants report hourly emissions through continuous emissions monitoring systems (CEMS), but inventories elsewhere rely largely on fuel statistics and assumed emission factors.</p></div>
+          <div class="pdl-overview-grid">
+            <div class="pdl-overview-copy">
+              <p>TROPOMI maps nitrogen dioxide (NO<sub>2</sub>), the visible form of NO<sub>x</sub>, at a resolution fine enough to observe the plume drifting downwind of a large power plant.</p>
+              <p>Our pipeline finds these plumes, attributes them to source plants, and uses a convolutional neural network to estimate hourly NO<sub>x</sub> emissions from the NO<sub>2</sub> field, wind, cloud, viewing geometry, and surface data.</p>
+            </div>
+            <div class="pdl-baseline" aria-label="Current model results">
+              <article><span>SINGLE OVERPASS</span><strong>0.25</strong><p>R² against hourly CEMS</p></article>
+              <article><span>PLANT AVERAGE</span><strong>0.69</strong><p>R² across six-year means</p></article>
+            </div>
+          </div>
+          <div class="dl-plan-note pdl-question-note"><span>CORE QUESTION</span><p>Averaging helps—but how much, when does it stop helping, and which plants can be reported with confidence?</p></div>
+        </section>
 
-    <section class="p2-overview section-shell appear">
-      <div class="p2-section-label"><span>01</span><p>WHY THIS MATTERS</p></div>
-      <div class="p2-overview-copy">
-        <h2>Most power plants are not measured at the stack.</h2>
-        <div class="p2-columns">
-          <p>U.S. plants report hourly emissions through continuous emissions monitoring systems. Most plants elsewhere do not, so inventories rely on fuel statistics and assumed emission factors.</p>
-          <p>TROPOMI can see the NO<sub>2</sub> plume drifting from a large plant. Our neural network turns that plume—along with wind, cloud, viewing geometry, and surface data—into an hourly NO<sub>x</sub> estimate.</p>
-        </div>
-        <p class="p2-callout">This project asks where those estimates are reliable, where they fail, and what evidence is needed before reporting an annual number.</p>
+        <section class="dl-section" id="limits">
+          <header class="dl-section-head"><span>02</span><div><p>RELIABILITY &amp; LIMITS</p><h2>How many overpasses are enough?</h2></div></header>
+          <div class="dl-plan-intro pdl-intro"><p>A satellite estimate contains <strong>random error</strong> that shrinks as observations accumulate and <strong>systematic error</strong> that averaging cannot remove.</p></div>
+          <div class="pdl-equation" aria-label="Mean squared error of N equals sigma b squared plus sigma epsilon squared divided by N">
+            <span>MSE(N)</span><b>=</b><span>σ<sub>b</sub><sup>2</sup> + σ<sub>ε</sub><sup>2</sup> / N</span>
+          </div>
+          <figure class="pdl-chart">
+            <div class="pdl-chart-head"><span>EXPECTED PLANT-LEVEL ERROR</span><small>lb h<sup>−1</sup></small></div>
+            <svg viewBox="0 0 700 330" role="img" aria-labelledby="error-chart-title error-chart-desc">
+              <title id="error-chart-title">Expected error by number of averaged TROPOMI overpasses</title>
+              <desc id="error-chart-desc">Total error rapidly approaches a systematic floor near 540 pounds per hour.</desc>
+              <g class="pdl-grid"><path d="M70 35H670M70 95H670M70 155H670M70 215H670M70 275H670"/><path d="M70 35V275M220 35V275M370 35V275M520 35V275M670 35V275"/></g>
+              <g class="pdl-axis"><path d="M70 25V275H680"/><text x="34" y="40">1100</text><text x="44" y="100">825</text><text x="44" y="160">550</text><text x="44" y="220">275</text><text x="58" y="280">0</text><text x="67" y="300">1</text><text x="213" y="300">3</text><text x="360" y="300">10</text><text x="507" y="300">40</text><text x="655" y="300">200</text><text x="287" y="325">OVERPASSES AVERAGED, N →</text></g>
+              <path class="pdl-total" d="M70 66 C110 105 150 130 220 143 S350 153 450 155 S590 156 670 157"/>
+              <path class="pdl-random" d="M70 103 C135 165 190 202 260 230 S440 262 670 273"/>
+              <path class="pdl-floor" d="M70 157H670"/>
+              <g class="pdl-labels"><text x="465" y="139">TOTAL ERROR</text><text x="475" y="254">IF ALL ERROR WERE RANDOM</text><text x="510" y="176">SYSTEMATIC FLOOR</text></g>
+            </svg>
+            <figcaption>Current results imply random error of about 790 lb h<sup>−1</sup> and a systematic floor near 540 lb h<sup>−1</sup>. The largest gain may come from the first few valid overpasses.</figcaption>
+          </figure>
+          <div class="dl-records dl-plan-records pdl-records">
+            <article><div class="dl-record-date"><span>METHOD 01</span><b>Estimate</b></div><div class="dl-record-line"><i></i></div><div class="dl-record-copy"><p>DECOMPOSE</p><h3>Separate noise from bias.</h3><p>Estimate both error components from held-out residuals for small, medium, and large emitters.</p></div></article>
+            <article><div class="dl-record-date"><span>METHOD 02</span><b>Calibrate</b></div><div class="dl-record-line"><i></i></div><div class="dl-record-copy"><p>UNCERTAINTY</p><h3>Build plant-level intervals.</h3><p>Use conformal prediction at the plant level so shared plant bias is represented correctly.</p></div></article>
+            <article><div class="dl-record-date"><span>OUTPUT</span><b>Rule</b></div><div class="dl-record-line"><i></i></div><div class="dl-record-copy"><p>DELIVER</p><h3>Report an overpass count.</h3><p>Determine how many observations are needed to reach a target precision, such as ±30%.</p></div></article>
+          </div>
+        </section>
+
+        <section class="dl-section" id="drivers">
+          <header class="dl-section-head"><span>03</span><div><p>OPERATING ENVELOPE</p><h2>Which plants work best—and why?</h2></div></header>
+          <div class="dl-plan-intro pdl-intro"><p><strong>Five-fold plant-level cross-validation</strong> will expand the well-observed held-out cohort from 7 to 46 plants. Every prediction will come from a model that never saw that plant during training.</p></div>
+          <div class="dl-plan-grid pdl-driver-grid">
+            <article><div><span>01</span><b>PLANT</b></div><h3>Source properties</h3><p>Capacity, fuel, emission controls, operating consistency, and distance from nearby sources.</p></article>
+            <article><div><span>02</span><b>SCENE</b></div><h3>Observation conditions</h3><p>Wind, cloud, sun angle, surface brightness, aerosols, and viewing geometry.</p></article>
+            <article><div><span>03</span><b>SAMPLE</b></div><h3>Temporal coverage</h3><p>Overpass count, timing, and clustering across seasons and years.</p></article>
+            <article><div><span>04</span><b>MODEL</b></div><h3>Learned behavior</h3><p>Channel ablations and wind rotations will test whether the network uses physically meaningful signals.</p></article>
+          </div>
+          <div class="dl-plan-note"><span>DELIVERABLE</span><p>An operating envelope showing where emission magnitude and overpass count support estimates below a chosen error threshold.</p></div>
+        </section>
+
+        <section class="dl-section" id="annual">
+          <header class="dl-section-head"><span>04</span><div><p>FROM HOURS TO YEARS</p><h2>Can sparse scenes support annual totals?</h2></div></header>
+          <div class="dl-plan-intro pdl-intro"><p>TROPOMI observes near 13:30 local time, only clear skies yield retrievals, and only a running plant produces a plume. The observed hours may not represent the full year.</p></div>
+          <div class="pdl-annual-equation">
+            <div><span>TOTAL ERROR</span><b>P − A</b></div><i>=</i><div><span>MODEL ERROR</span><b>P − S</b></div><i>+</i><div><span>SAMPLING ERROR</span><b>S − A</b></div>
+          </div>
+          <div class="pdl-key"><p><b>P</b> model mean over sampled hours</p><p><b>S</b> CEMS mean over the same hours</p><p><b>A</b> true annual CEMS mean</p></div>
+          <div class="dl-records dl-plan-records pdl-records pdl-annual-records">
+            <article><div class="dl-record-date"><span>EST. 01</span><b>Mean</b></div><div class="dl-record-line"><i></i></div><div class="dl-record-copy"><p>BASELINE</p><h3>Average sampled overpasses.</h3><p>Use the plain mean as the simplest annual estimate.</p></div></article>
+            <article><div class="dl-record-date"><span>EST. 02</span><b>Detect</b></div><div class="dl-record-line"><i></i></div><div class="dl-record-copy"><p>NON-DETECTION</p><h3>Use scenes without a plume.</h3><p>Treat non-detections as evidence of low emissions rather than dropping them.</p></div></article>
+            <article><div class="dl-record-date"><span>EST. 03</span><b>Correct</b></div><div class="dl-record-line"><i></i></div><div class="dl-record-copy"><p>PORTABLE</p><h3>Correct sampling with global signals.</h3><p>Use quantities available anywhere, such as plume-detection frequency.</p></div></article>
+            <article><div class="dl-record-date"><span>EST. 04</span><b>Pool</b></div><div class="dl-record-line"><i></i></div><div class="dl-record-copy"><p>ACROSS YEARS</p><h3>Borrow strength over time.</h3><p>Stabilize years with few overpasses using observations from the same plant in other years.</p></div></article>
+          </div>
+        </section>
+
+        <section class="dl-section" id="global">
+          <header class="dl-section-head"><span>05</span><div><p>TRANSFER TEST</p><h2>A global pilot for 2018.</h2></div></header>
+          <div class="dl-plan-intro pdl-intro"><p>The pilot tests the method where hourly CEMS does not exist—without claiming a full global catalog. The United States provides a ground-truthed test of 2018 conditions before transfer abroad.</p></div>
+          <div class="dl-plan-grid pdl-global-grid">
+            <article><div><span>01</span><b>COVERAGE</b></div><h3>Eight months</h3><p>Routine TROPOMI operations began in May 2018.</p></article>
+            <article><div><span>02</span><b>RESOLUTION</b></div><h3>7 km pixels</h3><p>Early pixels were coarser than every scene used in training.</p></article>
+            <article><div><span>03</span><b>CONSISTENCY</b></div><h3>One retrieval</h3><p>Use a reprocessed product version consistent with the training data.</p></article>
+            <article><div><span>04</span><b>SUPPORT</b></div><h3>Flag unfamiliar cases</h3><p>Report plants as in-support, marginal, or out-of-support before publishing estimates.</p></article>
+          </div>
+          <div class="dl-plan-note"><span>CROSS-CHECK</span><p>Compare annual facility totals where available and compute an independent physics-based mass-balance estimate on the same scenes.</p></div>
+        </section>
+
+        <section class="dl-section" id="plan">
+          <header class="dl-section-head"><span>06</span><div><p>11-WEEK SCHEDULE</p><h2>From calibration to transfer.</h2></div></header>
+          <div class="dl-records dl-plan-records pdl-records pdl-schedule">
+            <article><div class="dl-record-date"><span>WEEKS 1–3</span><b>Step 01</b></div><div class="dl-record-line"><i></i></div><div class="dl-record-copy"><p>DECOMPOSE</p><h3>Error and sampling curves.</h3><p>Estimate random and systematic error; quantify annual sampling representativeness.</p></div></article>
+            <article><div class="dl-record-date"><span>WEEKS 3–6</span><b>Step 02</b></div><div class="dl-record-line"><i></i></div><div class="dl-record-copy"><p>CALIBRATE</p><h3>Cross-validation and intervals.</h3><p>Run five-fold evaluation, conformal calibration, and the required-overpass analysis.</p></div></article>
+            <article><div class="dl-record-date"><span>WEEKS 6–9</span><b>Step 03</b></div><div class="dl-record-line"><i></i></div><div class="dl-record-copy"><p>EXPLAIN</p><h3>Drivers and annual estimates.</h3><p>Build the operating envelope and evaluate annual estimators and change detection.</p></div></article>
+            <article><div class="dl-record-date"><span>WEEKS 9–11</span><b>Step 04</b></div><div class="dl-record-line"><i></i></div><div class="dl-record-copy"><p>TRANSFER</p><h3>2018 test and global pilot.</h3><p>Validate the early TROPOMI period, test one region abroad, and prepare the final report.</p></div></article>
+          </div>
+          <div class="pdl-deliverables">
+            <p>CORE DELIVERABLES</p>
+            <ul><li>Calibrated uncertainty and overpass-count rule</li><li>Plant and scene operating envelope</li><li>Annual evaluation against 2019–2024 CEMS totals</li><li>AGU Fall Meeting presentation</li></ul>
+          </div>
+        </section>
+
+        <section class="dl-section pdl-references" id="references">
+          <header class="dl-section-head"><span>07</span><div><p>SOURCES</p><h2>Selected references.</h2></div></header>
+          <details>
+            <summary>View seven references <span>+</span></summary>
+            <ol>
+              <li>McDuffie, E. E. et al. (2020). A global anthropogenic emission inventory of atmospheric pollutants from sector- and fuel-specific sources.</li>
+              <li>Huang, R. et al. (2026). Global power-plant plume detection and source attribution using TROPOMI.</li>
+              <li>Frost, C. &amp; Thompson, S. G. (2000). Correcting for regression dilution bias. <em>JRSS Series A, 163</em>(2), 173–189.</li>
+              <li>Vovk, V., Gammerman, A. &amp; Shafer, G. (2005). <em>Algorithmic Learning in a Random World.</em> Springer.</li>
+              <li>Angelopoulos, A. N. &amp; Bates, S. (2021). A gentle introduction to conformal prediction and distribution-free uncertainty quantification.</li>
+              <li>van Geffen, J. et al. (2022). Sentinel-5P TROPOMI NO<sub>2</sub> retrieval and reprocessing.</li>
+              <li>Byers, L. et al. (2018). <em>A Global Database of Power Plants.</em> World Resources Institute.</li>
+            </ol>
+          </details>
+        </section>
       </div>
-    </section>
-
-    <section class="p2-questions section-shell">
-      <div class="p2-section-label appear"><span>02</span><p>RESEARCH PLAN</p></div>
-      <div class="p2-question-list">
-        <article class="appear"><span>01</span><div><h2>How many overpasses are enough?</h2><p>Separate random overpass noise from plant-specific bias, calibrate uncertainty at the plant level, and derive an observation count for a target precision such as ±30%.</p></div><b>LIMITS</b></article>
-        <article class="appear"><span>02</span><div><h2>Which plants work best—and why?</h2><p>Use five-fold plant-level cross-validation to expand the held-out cohort from 7 to 46 plants, then test plant, scene, and sampling drivers of error.</p></div><b>DRIVERS</b></article>
-        <article class="appear"><span>03</span><div><h2>Can sparse scenes yield annual totals?</h2><p>Distinguish model error from sampling bias caused by clear-sky retrievals, afternoon overpasses, and intermittent plant operation.</p></div><b>ANNUAL</b></article>
-        <article class="appear"><span>04</span><div><h2>Does the method transfer globally?</h2><p>Validate on the United States in 2018, then pilot selected plants abroad while flagging cases outside the model’s training support.</p></div><b>GLOBAL</b></article>
-      </div>
-    </section>
-
-    <section class="p2-error section-shell">
-      <div class="p2-section-label appear"><span>03</span><p>KEY HYPOTHESIS</p></div>
-      <div class="p2-error-grid">
-        <div class="p2-error-copy appear">
-          <h2>More data cannot average away systematic error.</h2>
-          <p>For <em>N</em> overpasses, plant-level error has a persistent bias term and a random term that shrinks with averaging:</p>
-          <div class="p2-formula" aria-label="MSE of N equals sigma b squared plus sigma epsilon squared over N">MSE(N) = σ<sub>b</sub><sup>2</sup> + σ<sub>ε</sub><sup>2</sup> / N</div>
-          <p>Current results imply random error of about <b>790 lb h<sup>−1</sup></b> and a systematic floor near <b>540 lb h<sup>−1</sup></b>. If that holds, calibration matters more than collecting many additional scenes.</p>
-        </div>
-        <figure class="p2-mini-chart appear delay-1">
-          <div class="p2-chart-head"><span>EXPECTED ERROR</span><small>lb h<sup>−1</sup></small></div>
-          <svg viewBox="0 0 560 310" role="img" aria-labelledby="p2-chart-title p2-chart-desc">
-            <title id="p2-chart-title">Expected error by number of overpasses</title>
-            <desc id="p2-chart-desc">Total error rapidly approaches a systematic error floor as observations increase.</desc>
-            <g class="p2-gridlines"><path d="M55 35H530M55 100H530M55 165H530M55 230H530"/><path d="M55 35V230M175 35V230M295 35V230M415 35V230M530 35V230"/></g>
-            <g class="p2-axis"><path d="M55 25V230H538"/><text x="17" y="39">1000</text><text x="24" y="104">750</text><text x="24" y="169">500</text><text x="24" y="234">250</text><text x="51" y="253">1</text><text x="168" y="253">3</text><text x="286" y="253">10</text><text x="406" y="253">40</text><text x="517" y="253">200</text><text x="189" y="285">OVERPASSES AVERAGED →</text></g>
-            <path class="p2-total-line" d="M55 48 C95 84 125 115 175 131 S280 151 360 156 S470 158 530 159"/>
-            <path class="p2-floor-line" d="M55 159H530"/>
-            <circle cx="175" cy="131" r="5"/><text class="p2-line-label" x="193" y="122">TOTAL ERROR</text><text class="p2-floor-label" x="378" y="177">SYSTEMATIC FLOOR</text>
-          </svg>
-          <figcaption>The largest gains may come in the first few valid overpasses.</figcaption>
-        </figure>
-      </div>
-    </section>
-
-    <section class="p2-annual section-shell appear">
-      <div class="p2-section-label"><span>04</span><p>ANNUAL ESTIMATES</p></div>
-      <div class="p2-annual-copy">
-        <h2>Separate prediction error from when the satellite happens to look.</h2>
-        <div class="p2-decomposition">
-          <div><small>TOTAL ERROR</small><b>P − A</b></div><i>=</i><div><small>MODEL ERROR</small><b>P − S</b></div><i>+</i><div><small>SAMPLING ERROR</small><b>S − A</b></div>
-        </div>
-        <p><b>P</b> is the model mean over observed hours, <b>S</b> is CEMS over those same hours, and <b>A</b> is the true annual CEMS mean. This decomposition makes clear whether the model is wrong or the satellite simply observed an unrepresentative slice of the year.</p>
-      </div>
-    </section>
-
-    <section class="p2-schedule section-shell">
-      <div class="p2-section-label appear"><span>05</span><p>11-WEEK PLAN</p></div>
-      <div class="p2-timeline">
-        <article class="appear"><span>WEEKS 1–3</span><h3>Decompose</h3><p>Error curves and annual sampling bias</p></article>
-        <article class="appear delay-1"><span>WEEKS 3–6</span><h3>Calibrate</h3><p>Cross-validation and uncertainty intervals</p></article>
-        <article class="appear delay-2"><span>WEEKS 6–9</span><h3>Explain</h3><p>Error drivers and annual estimators</p></article>
-        <article class="appear delay-3"><span>WEEKS 9–11</span><h3>Transfer</h3><p>2018 test, global pilot, and report</p></article>
-      </div>
-      <div class="p2-deliverables appear">
-        <p>DELIVERABLES</p>
-        <span>Calibrated uncertainty</span><span>Overpass-count rule</span><span>Operating envelope</span><span>Annual evaluation</span>
-      </div>
-    </section>
-
-    <section class="p2-sources section-shell appear">
-      <details>
-        <summary>Selected references <span>7 sources</span></summary>
-        <ol>
-          <li>McDuffie, E. E. et al. (2020). A global anthropogenic emission inventory of atmospheric pollutants from sector- and fuel-specific sources.</li>
-          <li>Huang, R. et al. (2026). Global power-plant plume detection and source attribution using TROPOMI.</li>
-          <li>Frost, C. &amp; Thompson, S. G. (2000). Correcting for regression dilution bias. <em>JRSS Series A, 163</em>(2), 173–189.</li>
-          <li>Vovk, V., Gammerman, A. &amp; Shafer, G. (2005). <em>Algorithmic Learning in a Random World.</em> Springer.</li>
-          <li>Angelopoulos, A. N. &amp; Bates, S. (2021). A gentle introduction to conformal prediction and distribution-free uncertainty quantification.</li>
-          <li>van Geffen, J. et al. (2022). Sentinel-5P TROPOMI NO<sub>2</sub> retrieval and reprocessing.</li>
-          <li>Byers, L. et al. (2018). <em>A Global Database of Power Plants.</em> World Resources Institute.</li>
-        </ol>
-      </details>
-    </section>
+    </div>
   </main>
 
   <footer class="site-footer"><div><a class="brand" href="index.html"><span class="brand-mark">RH</span><span>RUIZHE HUANG<small>EARTH-SYSTEM AI</small></span></a><p>Researching the atmosphere through data, models, and careful evaluation.</p></div><div class="footer-links"><a href="about.html">About Me ↗</a><a href="projects.html">Project ↗</a><a href="dev-log.html">Dev Log ↗</a></div><small>© 2026 Ruizhe Huang</small></footer>
