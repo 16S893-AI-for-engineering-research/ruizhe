@@ -1,6 +1,6 @@
 # Ruizhe Huang — Earth-system AI portfolio
 
-A four-page research portfolio for Ruizhe Huang, built with plain HTML, CSS, and JavaScript.
+A five-page research portfolio for Ruizhe Huang, built with plain HTML, CSS, and JavaScript.
 
 ## Pages
 
@@ -8,6 +8,7 @@ A four-page research portfolio for Ruizhe Huang, built with plain HTML, CSS, and
 - `about.html` — research interests, research experience, and education
 - `projects.html` — research proposal on satellite estimates of power-plant NOx emissions
 - `dev-log.html` — methodological research notes
+- `lorenz.html` — tested reproduction of Lorenz (1963), Figure 2
 
 ## Preview locally
 
@@ -23,3 +24,7 @@ Open <http://localhost:8000> in a browser.
 - The main animation models sparse observation stations and a reconstructed atmospheric field.
 - Type `forecast` anywhere on the site to find the Easter egg.
 - GitHub Actions deploys the static site to GitHub Pages after pushes to `main`.
+
+## Numerical reproductions
+
+- [`lorenz-1963/`](lorenz-1963/) — tested, `uv`-packaged reproduction of Lorenz (1963), Figure 2, including PNG and SVG outputs.

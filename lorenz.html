@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Ruizhe Huang's tested numerical reproduction of Lorenz's 1963 Figure 2 using the historical Heun predictor-corrector method.">
+  <title>Lorenz 1963 Reproduction — Ruizhe Huang</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page-noise" aria-hidden="true"></div>
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="Ruizhe Huang home"><span class="brand-mark">RH</span><span>RUIZHE HUANG<small>EARTH-SYSTEM AI</small></span></a>
+    <nav aria-label="Main navigation"><a href="index.html">Home</a><a href="about.html">About Me</a><a class="active" href="projects.html">Project</a><a href="dev-log.html">Dev Log</a></nav>
+    <a class="header-link" href="#result">View result <span>↓</span></a>
+  </header>
+
+  <main class="lorenz-page">
+    <section class="lz-hero">
+      <div class="lz-hero-copy appear">
+        <p class="lz-kicker"><i></i> Numerical methods · completed</p>
+        <h1>Reproducing<br><em>chaos.</em></h1>
+        <p>A tested reconstruction of Lorenz's 1963 phase-space figure—using the original parameters, initial condition, fixed timestep, and second-order predictor–corrector method.</p>
+        <div class="lz-hero-actions"><a class="primary-link lz-primary" href="#result">See the figure <span>↓</span></a><a class="quiet-link lz-quiet" href="lorenz-1963/figures/lorenz_figure_2.svg">Open SVG <span>↗</span></a></div>
+      </div>
+      <div class="lz-run-card appear delay-1" aria-label="Reproduction summary">
+        <div class="lz-run-top"><span>RUN / L63-F2</span><b><i></i> VERIFIED</b></div>
+        <div class="lz-run-main"><span>HEUN</span><small>PREDICTOR–CORRECTOR</small></div>
+        <div class="lz-run-stats"><div><strong>1,900</strong><span>STEPS</span></div><div><strong>0.01</strong><span>TIMESTEP</span></div><div><strong>6/6</strong><span>TESTS PASS</span></div></div>
+      </div>
+    </section>
+
+    <section class="lz-result section-shell" id="result">
+      <div class="lz-section-heading">
+        <div><p>01 / RESULT</p><h2>Figure 2, reconstructed.</h2></div>
+        <p>The full trajectory runs from <em>t</em> = 0 to 19. As in Lorenz's paper, only the segment from <em>t</em> = 14 to 19 is projected onto the <em>x–y</em> and <em>y–z</em> planes.</p>
+      </div>
+      <figure class="lz-figure">
+        <div class="lz-figure-bar"><span>PHASE-SPACE PROJECTIONS</span><span>t = 14 → 19</span></div>
+        <a href="lorenz-1963/figures/lorenz_figure_2.png" aria-label="Open the full-resolution Lorenz Figure 2 reproduction">
+          <img src="lorenz-1963/figures/lorenz_figure_2.png" alt="Two black phase-space trajectories: an x-y projection with loops around two lobes and a y-z projection showing nested loops, with times 14 through 19 marked." width="2445" height="1284">
+        </a>
+        <figcaption><span>OUTPUT / PNG + SVG</span><p>Numerals mark integer values of time. The plotted curve contains 501 states from the historical fixed-step calculation.</p><a href="lorenz-1963/figures/lorenz_figure_2.svg">VECTOR FILE ↗</a></figcaption>
+      </figure>
+    </section>
+
+    <section class="lz-method section-shell" id="method">
+      <div class="lz-section-heading">
+        <div><p>02 / METHOD</p><h2>A historical calculation, deliberately.</h2></div>
+        <p>The goal was not simply to draw the familiar attractor. It was to reproduce the numerical experiment specified in the paper and separately test whether the implementation behaves correctly.</p>
+      </div>
+      <div class="lz-equations" aria-label="Lorenz system equations">
+        <div><span>STATE 01</span><p>ẋ = σ(y − x)</p></div>
+        <div><span>STATE 02</span><p>ẏ = x(ρ − z) − y</p></div>
+        <div><span>STATE 03</span><p>ż = xy − βz</p></div>
+      </div>
+      <div class="lz-specs">
+        <article><span>PARAMETERS</span><strong>(10, 28, 8/3)</strong><p>σ, ρ, and β from Lorenz's Figure 2 calculation.</p></article>
+        <article><span>INITIAL STATE</span><strong>(0, 1, 0)</strong><p>The trajectory starts away from all three equilibria.</p></article>
+        <article><span>INTEGRATOR</span><strong>Heun, order 2</strong><p>Explicit trapezoidal predictor–corrector with a fixed step.</p></article>
+        <article><span>PACKAGING</span><strong>Python + uv</strong><p>A locked, isolated environment makes the result reproducible.</p></article>
+      </div>
+    </section>
+
+    <section class="lz-tests" id="tests">
+      <div class="section-shell">
+        <div class="lz-section-heading lz-section-heading-dark">
+          <div><p>03 / VERIFICATION</p><h2>Tests before trust.</h2></div>
+          <p>Visual similarity is not enough. Structural properties and a known exact solution provide independent checks on the equations and integrator.</p>
+        </div>
+        <div class="lz-test-grid">
+          <article><span>01</span><i>PASS</i><h3>Three equilibria</h3><p>The vector field vanishes at the origin and at both signed nonzero fixed points.</p></article>
+          <article><span>02</span><i>PASS</i><h3>Half-turn symmetry</h3><p>The field respects (x, y, z) → (−x, −y, z), catching subtle sign errors.</p></article>
+          <article><span>03</span><i>PASS</i><h3>Exact z-axis</h3><p>On the invariant axis, the numerical result tracks z(t) = z₀e<sup>−βt</sup>.</p></article>
+          <article><span>04</span><i>PASS</i><h3>Second-order rate</h3><p>Halving the timestep reduces short-time global error by approximately four.</p></article>
+        </div>
+        <div class="lz-test-footer"><strong>6 / 6</strong><span>FULL TEST SUITE PASSED</span><a href="https://github.com/16S893-AI-for-engineering-research/ruizhe/tree/main/lorenz-1963">VIEW SOURCE ↗</a></div>
+      </div>
+    </section>
+
+    <section class="lz-note section-shell">
+      <p>04 / INTERPRETATION</p>
+      <div><h2>Accuracy and historical reproduction are different objectives.</h2><p>Chaos amplifies tiny numerical differences. A modern high-accuracy solver can eventually occupy a different point on the attractor while still solving the same system more accurately. That is why this reproduction pairs the historical method with short-time convergence and structural tests—rather than treating long-time pointwise agreement as proof.</p></div>
+    </section>
+  </main>
+
+  <footer class="site-footer"><div><a class="brand" href="index.html"><span class="brand-mark">RH</span><span>RUIZHE HUANG<small>EARTH-SYSTEM AI</small></span></a><p>Researching the atmosphere through data, models, and careful evaluation.</p></div><div class="footer-links"><a href="about.html">About Me ↗</a><a href="projects.html">Project ↗</a><a href="dev-log.html">Dev Log ↗</a></div><small>© 2026 Ruizhe Huang</small></footer>
+  <script src="script.js"></script>
+</body>
+</html>
